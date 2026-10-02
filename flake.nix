@@ -127,6 +127,35 @@
             pinentryPackage = lib.mkForce pkgs.pinentry-qt;
           };
 
+          # Zsh & Starship Configuration
+          programs.zsh = {
+            enable = true;
+            shellAliases = {
+              nrb = "sudo nixos-rebuild switch --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
+              nrb-test = "sudo nixos-rebuild test --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
+              nrb-boot = "sudo nixos-rebuild boot --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
+              nfu = "sudo nix flake update --flake /home/derrik/nixos-config";
+              nfu-rebuild = "cd /home/derrik/nixos-config && sudo ./deploy.sh";
+              ngc = "sudo nix-collect-garbage -d";
+              nix-search = "nix search nixpkgs";
+              nix-lint = "nix flake check --flake /home/derrik/nixos-config";
+              # Replacements for common utilities
+              cat = "bat --paging=never";
+              grep = "rg";
+              find = "fd";
+              df = "duf";
+              ls = "eza --icons=auto";
+              ll = "eza -la --icons=auto --git";
+              tree = "eza --tree --icons=auto";
+            };
+            autosuggestions.enable = true;
+            ohMyZsh = {
+              enable = true;
+              plugins = [ "git" "sudo" ];
+            };
+          };
+          programs.starship.enable = true;
+
           # Nix Flakes Support
           nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -148,6 +177,11 @@
             mlocate
             btrfs-progs
             ntfs3g
+            bat
+            ripgrep
+            fd
+            duf
+            eza
 
             # Applications from derriks-apps.nix
             bitwarden-desktop
