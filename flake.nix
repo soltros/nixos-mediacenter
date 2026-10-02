@@ -8,14 +8,13 @@
       url = "github:soltros/soltros_nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hermes-agent.url = "github:NousResearch/hermes-agent";
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, soltros-nixpkgs, hermes-agent, antigravity-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, soltros-nixpkgs, antigravity-nix, ... }@inputs: {
     nixosConfigurations.nixos-mediacenter = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -205,8 +204,6 @@
 
           # System Packages
           environment.systemPackages = with pkgs; [
-            # Hermes Desktop is a separate upstream flake output from the CLI package.
-            hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
             chatgpt
             eza
             bat
@@ -227,7 +224,6 @@
             dotool
             papirus-icon-theme
             zsh-autosuggestions
-            # lmstudio # removed for Hermes OpenCode setup
 
             # Base tools & apps
             wget
