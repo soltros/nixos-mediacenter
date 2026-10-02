@@ -167,14 +167,14 @@
           programs.zsh = {
             enable = true;
             shellAliases = {
-              nrb = "sudo nixos-rebuild switch --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
-              nrb-test = "sudo nixos-rebuild test --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
-              nrb-boot = "sudo nixos-rebuild boot --flake /home/derrik/nixos-config#$(cat /etc/hostname)";
-              nfu = "sudo nix flake update --flake /home/derrik/nixos-config";
-              nfu-rebuild = "cd /home/derrik/nixos-config && sudo ./deploy.sh";
+              nrb = "sudo nixos-rebuild switch --flake /home/derrik/nixos-mediacenter#$(cat /etc/hostname)";
+              nrb-test = "sudo nixos-rebuild test --flake /home/derrik/nixos-mediacenter#$(cat /etc/hostname)";
+              nrb-boot = "sudo nixos-rebuild boot --flake /home/derrik/nixos-mediacenter#$(cat /etc/hostname)";
+              nfu = "sudo nix flake update --flake /home/derrik/nixos-mediacenter";
+              nfu-rebuild = "cd /home/derrik/nixos-mediacenter && sudo ./deploy.sh";
               ngc = "sudo nix-collect-garbage -d";
               nix-search = "nix search nixpkgs";
-              nix-lint = "nix flake check --flake /home/derrik/nixos-config";
+              nix-lint = "nix flake check --flake /home/derrik/nixos-mediacenter";
               # Replacements for common utilities
               cat = "bat --paging=never";
               grep = "rg";
