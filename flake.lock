@@ -1,0 +1,48 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1790822859,
+        "narHash": "sha256-69xHQhAeMAD2wDXO7T2pcOZIF9Sga2W+JkmY2a11Ops=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c59305bab2065cfecc4944690d9eedbb56f3a9fa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "soltros-nixpkgs": "soltros-nixpkgs"
+      }
+    },
+    "soltros-nixpkgs": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790778040,
+        "narHash": "sha256-PbmnVzKmlfkae/di5OxEyzjPrzOklqyj2NVsJ0yKjQM=",
+        "owner": "soltros",
+        "repo": "soltros_nixpkgs",
+        "rev": "18d6ec760c3c0ccbccea7f3ff87c4b902bc787af",
+        "type": "github"
+      },
+      "original": {
+        "owner": "soltros",
+        "repo": "soltros_nixpkgs",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
