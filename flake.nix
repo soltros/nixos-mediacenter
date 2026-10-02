@@ -195,6 +195,11 @@
           # Nix Flakes Support
           nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+          # Disable building doc/dev/info outputs (prevents Sphinx/docutils python3-doc build bug in nixpkgs-unstable)
+          documentation.doc.enable = false;
+          documentation.dev.enable = false;
+          documentation.info.enable = false;
+
           # User Account
           users.users.derrik = {
             isNormalUser = true;
