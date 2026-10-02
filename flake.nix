@@ -217,8 +217,6 @@
             vpn-manager
             duf
             flakebuilder
-            waterfox
-            browseros
             nixboutique
             antigravity-nix.packages.x86_64-linux.default
             antigravity-nix.packages.x86_64-linux.google-antigravity-ide
