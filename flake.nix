@@ -8,13 +8,50 @@
       url = "github:soltros/soltros_nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hermes-agent.url = "github:NousResearch/hermes-agent";
+    antigravity-nix = {
+      url = "github:jacopone/antigravity-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, soltros-nixpkgs, ... }@inputs: {
+  outputs = { self, nixpkgs, soltros-nixpkgs, hermes-agent, antigravity-nix, ... }@inputs: {
     nixosConfigurations.nixos-mediacenter = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ({ config, pkgs, lib, modulesPath, ... }: {
+        ({ config, pkgs, lib, modulesPath, ... }:
+        let
+          browserosVersion = "0.44.0.1";
+          browserosSrc = pkgs.fetchurl {
+            url = "https://github.com/browseros-ai/BrowserOS/releases/download/v${browserosVersion}/BrowserOS_v${browserosVersion}_x64.AppImage";
+            hash = "sha256-ALnyVMnexYy48br9qbWaEbOZm7hJR9g39a9nYzbWXwo=";
+          };
+          browserosContents = pkgs.appimageTools.extract {
+            pname = "browseros";
+            version = browserosVersion;
+            src = browserosSrc;
+          };
+          browseros = pkgs.appimageTools.wrapType2 {
+            pname = "browseros";
+            version = browserosVersion;
+            src = browserosSrc;
+            extraInstallCommands = ''
+              install -m 444 -D ${browserosContents}/browseros.desktop -t $out/share/applications
+              substituteInPlace $out/share/applications/browseros.desktop \
+                --replace 'Exec=AppRun' 'Exec=browseros'
+              cp -r ${browserosContents}/usr/share/icons $out/share
+            '';
+            meta = {
+              description = "Open-source agentic AI web browser";
+              homepage = "https://browseros.com/";
+              downloadPage = "https://github.com/browseros-ai/BrowserOS/releases";
+              license = pkgs.lib.licenses.agpl3Only;
+              sourceProvenance = with pkgs.lib.sourceTypes; [ binaryNativeCode ];
+              platforms = [ "x86_64-linux" ];
+              mainProgram = "browseros";
+            };
+          };
+        in {
           imports = [
             (modulesPath + "/installer/scan/not-detected.nix")
           ];
@@ -168,6 +205,30 @@
 
           # System Packages
           environment.systemPackages = with pkgs; [
+            # Hermes Desktop is a separate upstream flake output from the CLI package.
+            hermes-agent.packages.${pkgs.stdenv.hostPlatform.system}.desktop
+            chatgpt
+            eza
+            bat
+            ripgrep
+            fd
+            vpn-manager
+            duf
+            flakebuilder
+            waterfox
+            browseros
+            nixboutique
+            antigravity-nix.packages.x86_64-linux.default
+            antigravity-nix.packages.x86_64-linux.google-antigravity-ide
+            antigravity-nix.packages.x86_64-linux.google-antigravity-cli
+            wtype
+            wl-clipboard
+            ydotool
+            dotool
+            papirus-icon-theme
+            zsh-autosuggestions
+            # lmstudio # removed for Hermes OpenCode setup
+
             # Base tools & apps
             wget
             git
@@ -177,17 +238,11 @@
             mlocate
             btrfs-progs
             ntfs3g
-            bat
-            ripgrep
-            fd
-            duf
-            eza
 
             # Applications from derriks-apps.nix
             bitwarden-desktop
             python312
             appimage-run
-            papirus-icon-theme
             libreoffice-qt
             spotify
             tailscale
