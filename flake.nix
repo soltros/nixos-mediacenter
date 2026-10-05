@@ -19,7 +19,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, soltros-nixpkgs, plasma-mediacenter, antigravity-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, antigravity-nix, ... }@inputs: {
     nixosConfigurations.nixos-mediacenter = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -61,8 +61,8 @@
           ];
 
           nixpkgs.overlays = [
-            soltros-nixpkgs.overlays.default
-            plasma-mediacenter.overlays.default
+            inputs.soltros-nixpkgs.overlays.default
+            inputs.plasma-mediacenter.overlays.default
           ];
 
           # Hardware & Bootloader
@@ -232,7 +232,7 @@
             ydotool
             dotool
             papirus-icon-theme
-            plasma-mediacenter
+            pkgs.plasma-mediacenter
             kdePackages.kdeplasma-addons
             zsh-autosuggestions
 
