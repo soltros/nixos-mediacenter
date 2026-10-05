@@ -8,13 +8,18 @@
       url = "github:soltros/soltros_nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    plasma-mediacenter = {
+      url = "github:soltros/plasma-mediacenter?ref=prototype/phase-1";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     antigravity-nix = {
       url = "github:jacopone/antigravity-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = { self, nixpkgs, soltros-nixpkgs, antigravity-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, soltros-nixpkgs, plasma-mediacenter, antigravity-nix, ... }@inputs: {
     nixosConfigurations.nixos-mediacenter = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -57,6 +62,7 @@
 
           nixpkgs.overlays = [
             soltros-nixpkgs.overlays.default
+            plasma-mediacenter.overlays.default
           ];
 
           # Hardware & Bootloader
@@ -226,6 +232,7 @@
             ydotool
             dotool
             papirus-icon-theme
+            plasma-mediacenter
             zsh-autosuggestions
 
             # Base tools & apps
