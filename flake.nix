@@ -233,6 +233,7 @@
             dotool
             papirus-icon-theme
             plasma-mediacenter
+            kdePackages.kdeplasma-addons
             zsh-autosuggestions
 
             # Base tools & apps
